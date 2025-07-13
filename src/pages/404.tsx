@@ -1,9 +1,3 @@
 export default function Page() {
-  return (
-    <>
-      <div>
-        <h1>404</h1>
-      </div>
-    </>
-  );
+  return <div>존재하지 않는 페이지입니다</div>;
 }

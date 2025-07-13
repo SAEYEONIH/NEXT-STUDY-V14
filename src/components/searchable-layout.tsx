@@ -1,48 +1,48 @@
-import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import style from "./searchable-layout.module.css"
+import { ReactNode, useEffect, useState } from "react";
+import style from "./searchable-layout.module.css";
 
 export default function SearchableLayout({
-    children,
-}:{
-    children: ReactNode;
-}){     
-        const router = useRouter();
-        const [search, setSearch] = useState("");
-        
-        const q = router.query.q as string;
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const router = useRouter();
+  const [search, setSearch] = useState("");
 
-        // 새로고침시 -> 검색어 유지
-        useEffect(()=>{
-            setSearch(q || "")
-        }, [q]);
+  const q = router.query.q as string;
 
-        const onChangeSearch = (e : React.ChangeEvent<HTMLInputElement>)=> {
-            setSearch(e.target.value)
-        };
+  useEffect(() => {
+    setSearch(q || "");
+  }, [q]);
 
-        const onSubmit = () => {
-            if (!search || q === search) return;
-            router.push(`/search?q=${search}`);
-        };
+  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
-        // Enter키 처리
-        const onKeyDown = (e : React.KeyboardEvent<HTMLInputElement>) => {
-            if(e.key === 'Enter') {
-                onSubmit();
-            }
-        };
+  const onSubmit = () => {
+    if (!search || q === search) return;
+    router.push(`/search?q=${search}`);
+  };
 
-    return(
-        <div>
-            <div className={style.searchbar_container}>
-                <input value={search} 
-                onKeyDown={onKeyDown}
-                onChange={onChangeSearch} 
-                placeholder="검색어를 입력하세요..." />
-                <button onClick={onSubmit}>검색</button>
-            </div>
-            {children}
-        </div>
-    );
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onSubmit();
+    }
+  };
+
+  return (
+    <div>
+      <div className={style.searchbar_container}>
+        <input
+          value={search}
+          onKeyDown={onKeyDown}
+          onChange={onChangeSearch}
+          placeholder="검색어를 입력하세요 ..."
+        />
+        <button onClick={onSubmit}>검색</button>
+      </div>
+      {children}
+    </div>
+  );
 }
